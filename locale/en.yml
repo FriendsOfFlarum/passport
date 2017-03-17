@@ -1,0 +1,12 @@
+flagrow-passport:
+    admin:
+        popup:
+            title: Flagrow Passport
+            field:
+                app-auth-url: OAuth authorization url
+                app-token-url: OAuth token url
+                app-user-url: Api URL providing user details when authenticated
+                app-id: OAuth application id
+                app-secret: OAuth application secret
+                app-scopes: OAuth scopes to request
+                button-title: Label for login button
