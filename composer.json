@@ -1,6 +1,6 @@
 {
     "name": "flagrow/passport",
-    "description": "The OAuth extension for Laravel Passport",
+    "description": "The Laravel passport compatible oauth extension",
     "keywords": [
         "oauth",
         "flarum",

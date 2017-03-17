@@ -44,7 +44,7 @@ class PassportController extends AbstractOAuth2Controller
      */
     protected function getAuthorizationUrlOptions()
     {
-        return [];
+        return ['scope' => implode(' ', $this->settings->get('flagrow.app_oauth_scopes.app_scopes', []))];
     }
 
     /**
