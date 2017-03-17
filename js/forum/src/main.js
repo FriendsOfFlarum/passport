@@ -10,7 +10,7 @@ app.initializers.add('flagrow-passport', () => {
         className="Button LogInButton--passport"
         icon="id-card-o"
         path="/auth/passport">
-        put configured text here
+          {app.forum.attribute('flagrow.passport.loginTitle')}
       </LogInButton>
     );
   });

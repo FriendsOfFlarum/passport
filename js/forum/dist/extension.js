@@ -24,7 +24,7 @@ System.register('flagrow/passport/main', ['flarum/extend', 'flarum/app', 'flarum
               className: 'Button LogInButton--passport',
               icon: 'id-card-o',
               path: '/auth/passport' },
-            'put configured text here'
+            app.forum.attribute('flagrow.passport.loginTitle')
           ));
         });
       });

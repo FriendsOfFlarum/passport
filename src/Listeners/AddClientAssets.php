@@ -4,12 +4,24 @@
 namespace Flagrow\Passport\Listeners;
 
 use DirectoryIterator;
+use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Event\ConfigureLocales;
 use Flarum\Event\ConfigureWebApp;
+use Flarum\Event\PrepareApiAttributes;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class AddClientAssets
 {
+    /**
+     * @var SettingsRepositoryInterface
+     */
+    protected $settings;
+
+    public function __construct(SettingsRepositoryInterface $settings)
+    {
+        $this->settings = $settings;
+    }
 
     /**
      * Subscribes to the Flarum events.
@@ -20,6 +32,7 @@ class AddClientAssets
     {
         $events->listen(ConfigureWebApp::class, [$this, 'addAdminAssets']);
         $events->listen(ConfigureLocales::class, [$this, 'addLocales']);
+        $events->listen(PrepareApiAttributes::class, [$this, 'prepareApiAttributes']);
     }
 
     /**
@@ -55,6 +68,18 @@ class AddClientAssets
             if ($file->isFile() && in_array($file->getExtension(), ['yml', 'yaml'])) {
                 $event->locales->addTranslations($file->getBasename('.' . $file->getExtension()), $file->getPathname());
             }
+        }
+    }
+
+    /**
+     * @param PrepareApiAttributes $event
+     */
+    public function prepareApiAttributes(PrepareApiAttributes $event)
+    {
+        if ($event->isSerializer(ForumSerializer::class)) {
+            $event->attributes = array_merge($event->attributes, [
+                'flagrow.passport.loginTitle' => $this->settings->get('flagrow.passport.button_title', 'Login')
+            ]);
         }
     }
 }
