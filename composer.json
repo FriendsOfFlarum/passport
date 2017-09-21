@@ -31,6 +31,9 @@
                 "backgroundColor": "#000",
                 "color": "#87d37c"
             }
+        },
+        "flagrow": {
+            "discuss": "https://discuss.flarum.org/d/5203-flagrow-passport-the-laravel-passport-oauth-extension"
         }
     },
     "autoload": {
