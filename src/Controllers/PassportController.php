@@ -3,6 +3,7 @@
 namespace Flagrow\Passport\Controllers;
 
 use Flagrow\Passport\Providers\PassportProvider;
+use Flagrow\Passport\ResourceOwner;
 use Flarum\Forum\AuthenticationResponseFactory;
 use Flarum\Forum\Controller\AbstractOAuth2Controller;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -21,8 +22,9 @@ class PassportController extends AbstractOAuth2Controller
      */
     public function __construct(AuthenticationResponseFactory $authResponse, SettingsRepositoryInterface $settings)
     {
+        parent::__construct($authResponse);
+
         $this->settings = $settings;
-        $this->authResponse = $authResponse;
     }
 
     /**
@@ -48,7 +50,7 @@ class PassportController extends AbstractOAuth2Controller
     }
 
     /**
-     * @param ResourceOwnerInterface $resourceOwner
+     * @param ResourceOwnerInterface|ResourceOwner $resourceOwner
      * @return array
      */
     protected function getIdentification(ResourceOwnerInterface $resourceOwner)
