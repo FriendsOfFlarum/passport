@@ -14,6 +14,11 @@
             "name": "Daniël Klabbers",
             "email": "daniel+flarum@klabbers.email",
             "homepage": "http://hyn.me"
+        },
+        {
+            "name": "Clark Winkelmann",
+            "email": "clark.winkelmann@gmail.com",
+            "homepage": "https://clarkwinkelmann.com/"
         }
     ],
     "support": {
@@ -21,7 +26,7 @@
         "source": "https://github.com/flagrow/passport"
     },
     "require": {
-        "flarum/core": "^0.1.0-beta.6"
+        "flarum/core": "^0.1.0-beta.8"
     },
     "extra": {
         "flarum-extension": {
