@@ -2,42 +2,39 @@
 
 namespace Flagrow\Passport\Controllers;
 
+use Exception;
 use Flagrow\Passport\Providers\PassportProvider;
 use Flagrow\Passport\ResourceOwner;
+use Flarum\Forum\Auth\Registration;
+use Flarum\Forum\Auth\ResponseFactory;
 use Flarum\Forum\AuthenticationResponseFactory;
 use Flarum\Forum\Controller\AbstractOAuth2Controller;
 use Flarum\Settings\SettingsRepositoryInterface;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Zend\Diactoros\Response\RedirectResponse;
 
-class PassportController extends AbstractOAuth2Controller
+class PassportController implements RequestHandlerInterface
 {
-    /**
-     * @var SettingsRepositoryInterface
-     */
     protected $settings;
+    protected $response;
 
-    /**
-     * @param AuthenticationResponseFactory $authResponse
-     * @param SettingsRepositoryInterface $settings
-     */
-    public function __construct(AuthenticationResponseFactory $authResponse, SettingsRepositoryInterface $settings)
+
+    public function __construct(ResponseFactory $response, SettingsRepositoryInterface $settings)
     {
-        parent::__construct($authResponse);
-
+        $this->response = $response;
         $this->settings = $settings;
     }
 
-    /**
-     * @param string $redirectUri
-     * @return \League\OAuth2\Client\Provider\AbstractProvider
-     */
     protected function getProvider($redirectUri)
     {
         return new PassportProvider([
-            'clientId' => $this->settings->get('flagrow.passport.app_id'),
+            'clientId'     => $this->settings->get('flagrow.passport.app_id'),
             'clientSecret' => $this->settings->get('flagrow.passport.app_secret'),
-            'redirectUri' => $redirectUri,
-            'settings' => $this->settings
+            'redirectUri'  => $redirectUri,
+            'settings'     => $this->settings
         ]);
     }
 
@@ -49,23 +46,41 @@ class PassportController extends AbstractOAuth2Controller
         return ['scope' => implode(' ', $this->settings->get('flagrow.app_oauth_scopes.app_scopes', []))];
     }
 
-    /**
-     * @param ResourceOwnerInterface|ResourceOwner $resourceOwner
-     * @return array
-     */
-    protected function getIdentification(ResourceOwnerInterface $resourceOwner)
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return [
-            'email' => $resourceOwner->getEmail()
-        ];
-    }
+        $redirectUri = (string)$request->getAttribute('originalUri', $request->getUri())->withQuery('');
 
-    /**
-     * @param ResourceOwnerInterface $resourceOwner
-     * @return array
-     */
-    protected function getSuggestions(ResourceOwnerInterface $resourceOwner)
-    {
-        return [];
+        $provider = $this->getProvider($redirectUri);
+
+        $session     = $request->getAttribute('session');
+        $queryParams = $request->getQueryParams();
+
+        $code = array_get($queryParams, 'code');
+
+        if (!$code) {
+            $authUrl = $provider->getAuthorizationUrl($this->getAuthorizationUrlOptions());
+            $session->put('oauth2state', $provider->getState());
+
+            return new RedirectResponse($authUrl);
+        }
+
+        $state = array_get($queryParams, 'state');
+
+        if (!$state || $state !== $session->get('oauth2state')) {
+            $session->remove('oauth2state');
+            throw new Exception('Invalid state');
+        }
+
+        $token = $provider->getAccessToken('authorization_code', compact('code'));
+        $user  = $provider->getResourceOwner($token);
+
+        return $this->response->make(
+            'passport', $user->getId(),
+            function (Registration $registration) use ($user, $provider, $token) {
+                $registration
+                    ->provideTrustedEmail($user->getEmail())
+                    ->setPayload($user->toArray());
+            }
+        );
     }
 }
