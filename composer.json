@@ -1,11 +1,10 @@
 {
     "name": "flagrow/passport",
-    "description": "The Laravel passport compatible oauth extension",
+    "description": "The OAuth2 (and Laravel passport) compatible oauth extension",
     "keywords": [
-        "oauth",
-        "flarum",
-        "flagrow",
-        "passport"
+        "flarum", "flagrow",
+        "passport", "league",
+        "oauth", "oauth2"
     ],
     "type": "flarum-extension",
     "license": "MIT",
@@ -32,13 +31,13 @@
         "flarum-extension": {
             "title": "Flagrow Passport",
             "icon": {
-                "name": "id-card-o",
-                "backgroundColor": "#000",
-                "color": "#87d37c"
+                "name": "fas fa-key",
+                "backgroundColor": "#f4f4f4",
+                "color": "#5f4bb6"
             }
         },
         "flagrow": {
-            "discuss": "https://discuss.flarum.org/d/5203-flagrow-passport-the-laravel-passport-oauth-extension"
+            "discuss": "https://discuss.flarum.org/d/5203"
         }
     },
     "autoload": {
