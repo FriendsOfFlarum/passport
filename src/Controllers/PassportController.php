@@ -47,7 +47,7 @@ class PassportController implements RequestHandlerInterface
     {
         $scopes = $this->settings->get('flagrow.passport.app_oauth_scopes', '');
 
-        return ['scope' => $scopes ];
+        return ['scope' => $scopes];
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
