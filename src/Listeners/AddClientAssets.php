@@ -36,7 +36,7 @@ class AddClientAssets
     {
         if ($event->isSerializer(ForumSerializer::class)) {
             $event->attributes = array_merge($event->attributes, [
-                'flagrow.passport.loginTitle' => $this->settings->get('flagrow.passport.button_title', 'Login')
+                'flagrow.passport.loginTitle' => $this->settings->get('flagrow.passport.button_title') ?? 'Log In'
             ]);
         }
     }
