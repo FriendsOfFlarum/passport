@@ -3,14 +3,14 @@
 namespace Flagrow\Passport\Controllers;
 
 use Exception;
+use Flagrow\Passport\Events\SendingResponse;
 use Flagrow\Passport\Providers\PassportProvider;
-use Flagrow\Passport\ResourceOwner;
 use Flarum\Forum\Auth\Registration;
 use Flarum\Forum\Auth\ResponseFactory;
 use Flarum\Forum\AuthenticationResponseFactory;
 use Flarum\Forum\Controller\AbstractOAuth2Controller;
 use Flarum\Settings\SettingsRepositoryInterface;
-use League\OAuth2\Client\Provider\ResourceOwnerInterface;
+use Illuminate\Contracts\Events\Dispatcher;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -20,12 +20,14 @@ class PassportController implements RequestHandlerInterface
 {
     protected $settings;
     protected $response;
+    protected $events;
 
 
-    public function __construct(ResponseFactory $response, SettingsRepositoryInterface $settings)
+    public function __construct(ResponseFactory $response, SettingsRepositoryInterface $settings, Dispatcher $events)
     {
         $this->response = $response;
         $this->settings = $settings;
+        $this->events = $events;
     }
 
     protected function getProvider($redirectUri)
@@ -43,7 +45,9 @@ class PassportController implements RequestHandlerInterface
      */
     protected function getAuthorizationUrlOptions()
     {
-        return ['scope' => implode(' ', $this->settings->get('flagrow.app_oauth_scopes.app_scopes', []))];
+        $scopes = $this->settings->get('flagrow.passport.app_oauth_scopes', '');
+
+        return ['scope' => $scopes ];
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -54,6 +58,12 @@ class PassportController implements RequestHandlerInterface
 
         $session     = $request->getAttribute('session');
         $queryParams = $request->getQueryParams();
+
+        if ($error = array_get($queryParams, 'error')) {
+            $hint = array_get($queryParams, 'hint');
+
+            throw new Exception("$error: $hint");
+        }
 
         $code = array_get($queryParams, 'code');
 
@@ -74,7 +84,7 @@ class PassportController implements RequestHandlerInterface
         $token = $provider->getAccessToken('authorization_code', compact('code'));
         $user  = $provider->getResourceOwner($token);
 
-        return $this->response->make(
+        $response = $this->response->make(
             'passport', $user->getId(),
             function (Registration $registration) use ($user, $provider, $token) {
                 $registration
@@ -82,5 +92,13 @@ class PassportController implements RequestHandlerInterface
                     ->setPayload($user->toArray());
             }
         );
+
+        $this->events->dispatch(new SendingResponse(
+            $response,
+            $user,
+            $token
+        ));
+
+        return $response;
     }
 }
