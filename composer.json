@@ -30,7 +30,7 @@
     },
     "extra": {
         "flarum-extension": {
-            "title": "Flagrow Passport",
+            "title": "Passport",
             "icon": {
                 "name": "fas fa-key",
                 "backgroundColor": "#f4f4f4",
