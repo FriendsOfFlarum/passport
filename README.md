@@ -1,6 +1,6 @@
 # Passport by FriendsOfFlarum
 
-[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/FriendsOrFlarum/passport/blob/master/LICENSE.md) [![Latest Stable Version](https://img.shields.io/packagist/v/fof/passport.svg)](https://packagist.org/packages/fof/passport) [![Total Downloads](https://img.shields.io/packagist/dt/fof/passport.svg)](https://packagist.org/packages/fof/passport))
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/FriendsOrFlarum/passport/blob/master/LICENSE.md) [![Latest Stable Version](https://img.shields.io/packagist/v/fof/passport.svg)](https://packagist.org/packages/fof/passport) [![Total Downloads](https://img.shields.io/packagist/dt/fof/passport.svg)](https://packagist.org/packages/fof/passport)
 
 The [Laravel Passport](https://laravel.com/docs/passport) compatible oauth extension.
 
@@ -12,7 +12,7 @@ Use [Bazaar](https://discuss.flarum.org/d/5151) or install manually:
 composer require fof/passport
 ```
 
-### Updating from Flagrow
+## Updating from Flagrow
 
 This extension replaces [Flagrow Passport](https://packagist.org/packages/fof/passport).
 
