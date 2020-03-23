@@ -14,7 +14,7 @@ composer require fof/passport
 
 ## Updating from Flagrow
 
-This extension replaces [Flagrow Passport](https://packagist.org/packages/fof/passport).
+This extension replaces [Flagrow Passport](https://packagist.org/packages/flagrow/passport).
 
 To upgrade from the old extension to the new one:
 
@@ -57,7 +57,7 @@ Icon for login button | `far fa-id-card` | FontAwesome icon to place on the logi
 
 - [Flarum Discuss post](https://discuss.flarum.org/d/5203)
 - [Source code on GitHub](https://github.com/FriendsOfFlarum/passport)
-- [Report an issue](https://github.com/flagrow/FriendsOfFlarum/issues)
+- [Report an issue](https://github.com/FriendsOfFlarum/passport/issues)
 - [Download via Packagist](https://packagist.org/packages/fof/passport)
 
 An extension by [FriendsOfFlarum](https://github.com/FriendsOfFlarum)
