@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\Passport\Events;
+namespace FoF\Passport\Events;
 
 class ParsingResourceOwner
 {

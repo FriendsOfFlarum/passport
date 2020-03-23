@@ -1,9 +1,8 @@
 <?php
 
-namespace Flagrow\Passport;
+namespace FoF\Passport;
 
 use Flarum\Extend;
-use Illuminate\Contracts\Events\Dispatcher;
 
 return [
     (new Extend\Frontend('forum'))
@@ -17,7 +16,5 @@ return [
     (new Extend\Routes('forum'))
         ->get('/auth/passport', 'auth.passport', Controllers\PassportController::class),
 
-    (new Extend\Compat(function (Dispatcher $events) {
-        $events->subscribe(Listeners\AddClientAssets::class);
-    })),
+    new Extenders\ForumAttributes(),
 ];

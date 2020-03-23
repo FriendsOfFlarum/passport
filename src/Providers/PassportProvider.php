@@ -1,9 +1,9 @@
 <?php
 
-namespace Flagrow\Passport\Providers;
+namespace FoF\Passport\Providers;
 
-use Flagrow\Passport\Events\ParsingResourceOwner;
-use Flagrow\Passport\ResourceOwner;
+use FoF\Passport\Events\ParsingResourceOwner;
+use FoF\Passport\ResourceOwner;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use League\OAuth2\Client\Provider\AbstractProvider;
@@ -31,7 +31,7 @@ class PassportProvider extends AbstractProvider
      */
     public function getBaseAuthorizationUrl()
     {
-        return $this->settings->get('flagrow.passport.app_auth_url');
+        return $this->settings->get('fof-passport.app_auth_url');
     }
 
     /**
@@ -44,7 +44,7 @@ class PassportProvider extends AbstractProvider
      */
     public function getBaseAccessTokenUrl(array $params)
     {
-        return $this->settings->get('flagrow.passport.app_token_url');
+        return $this->settings->get('fof-passport.app_token_url');
     }
 
     /**
@@ -55,7 +55,7 @@ class PassportProvider extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return $this->settings->get('flagrow.passport.app_user_url');
+        return $this->settings->get('fof-passport.app_user_url');
     }
 
     /**
@@ -68,7 +68,7 @@ class PassportProvider extends AbstractProvider
      */
     protected function getDefaultScopes()
     {
-        return explode(',', $this->settings->get('flagrow.passport.app_oauth_scopes', ''));
+        return explode(',', $this->settings->get('fof-passport.app_oauth_scopes', ''));
     }
 
     /**

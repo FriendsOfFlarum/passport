@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\Passport\Events;
+namespace FoF\Passport\Events;
 
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use Psr\Http\Message\ResponseInterface;

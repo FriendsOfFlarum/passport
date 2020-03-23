@@ -1,17 +1,15 @@
-import { extend } from 'flarum/extend';
+import {extend} from 'flarum/extend';
 import app from 'flarum/app';
 import LogInButtons from 'flarum/components/LogInButtons';
 import LogInButton from 'flarum/components/LogInButton';
 
-app.initializers.add('flagrow-passport', () => {
-  extend(LogInButtons.prototype, 'items', function(items) {
-    items.add('flagrow-passport',
-      <LogInButton
-        className="Button LogInButton--passport"
-        icon="id-card-o"
-        path="/auth/passport">
-          {app.forum.attribute('flagrow.passport.loginTitle')}
-      </LogInButton>
-    );
-  });
+app.initializers.add('fof-passport', () => {
+    extend(LogInButtons.prototype, 'items', function (items) {
+        items.add('fof-passport', LogInButton.component({
+            className: 'Button LogInButton--passport',
+            icon: 'far fa-id-card',
+            path: '/auth/passport',
+            children: app.forum.attribute('fof-passport.loginTitle'),
+        }));
+    });
 });

@@ -1,10 +1,12 @@
 {
-    "name": "flagrow/passport",
+    "name": "fof/passport",
     "description": "The OAuth2 (and Laravel passport) compatible oauth extension",
     "keywords": [
-        "flarum", "flagrow",
-        "passport", "league",
-        "oauth", "oauth2"
+        "flarum",
+        "passport",
+        "league",
+        "oauth",
+        "oauth2"
     ],
     "type": "flarum-extension",
     "license": "MIT",
@@ -12,7 +14,7 @@
         {
             "name": "Daniël Klabbers",
             "email": "daniel+flarum@klabbers.email",
-            "homepage": "http://hyn.me"
+            "homepage": "https://hyn.me/"
         },
         {
             "name": "Clark Winkelmann",
@@ -21,20 +23,20 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/flagrow/passport/issues",
-        "source": "https://github.com/flagrow/passport"
+        "issues": "https://github.com/FriendsOfFlarum/passport/issues",
+        "source": "https://github.com/FriendsOfFlarum/passport"
     },
     "require": {
-        "flarum/core": "^0.1.0-beta.8",
+        "flarum/core": ">=0.1.0-beta.12 <0.1.0-beta.14",
         "league/oauth2-client": "^2.3.0"
     },
     "extra": {
         "flarum-extension": {
-            "title": "Passport",
+            "title": "FoF Passport",
             "icon": {
                 "name": "fas fa-key",
-                "backgroundColor": "#f4f4f4",
-                "color": "#5f4bb6"
+                "backgroundColor": "#e74c3c",
+                "color": "#fff"
             }
         },
         "flagrow": {
@@ -43,7 +45,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Flagrow\\Passport\\": "src/"
+            "FoF\\Passport\\": "src/"
         }
     }
 }

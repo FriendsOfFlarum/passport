@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\Passport;
+namespace FoF\Passport;
 
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Tool\ArrayAccessorTrait;

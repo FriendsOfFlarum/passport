@@ -1,20 +1,19 @@
 <?php
 
-namespace Flagrow\Passport\Controllers;
+namespace FoF\Passport\Controllers;
 
 use Exception;
-use Flagrow\Passport\Events\SendingResponse;
-use Flagrow\Passport\Providers\PassportProvider;
+use FoF\Passport\Events\SendingResponse;
+use FoF\Passport\Providers\PassportProvider;
 use Flarum\Forum\Auth\Registration;
 use Flarum\Forum\Auth\ResponseFactory;
-use Flarum\Forum\AuthenticationResponseFactory;
-use Flarum\Forum\Controller\AbstractOAuth2Controller;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response\RedirectResponse;
+use Laminas\Diactoros\Response\RedirectResponse;
 use Flarum\Http\UrlGenerator;
 
 class PassportController implements RequestHandlerInterface
@@ -22,7 +21,6 @@ class PassportController implements RequestHandlerInterface
     protected $settings;
     protected $response;
     protected $events;
-    //@var UrlGenerator
     protected $url;
 
     public function __construct(ResponseFactory $response, SettingsRepositoryInterface $settings, Dispatcher $events, UrlGenerator $url)
@@ -36,8 +34,8 @@ class PassportController implements RequestHandlerInterface
     protected function getProvider($redirectUri)
     {
         return new PassportProvider([
-            'clientId'     => $this->settings->get('flagrow.passport.app_id'),
-            'clientSecret' => $this->settings->get('flagrow.passport.app_secret'),
+            'clientId'     => $this->settings->get('fof-passport.app_id'),
+            'clientSecret' => $this->settings->get('fof-passport.app_secret'),
             'redirectUri'  => $redirectUri,
             'settings'     => $this->settings
         ]);
@@ -48,7 +46,7 @@ class PassportController implements RequestHandlerInterface
      */
     protected function getAuthorizationUrlOptions()
     {
-        $scopes = $this->settings->get('flagrow.passport.app_oauth_scopes', '');
+        $scopes = $this->settings->get('fof-passport.app_oauth_scopes', '');
 
         return ['scope' => $scopes];
     }
@@ -62,13 +60,13 @@ class PassportController implements RequestHandlerInterface
         $session     = $request->getAttribute('session');
         $queryParams = $request->getQueryParams();
 
-        if ($error = array_get($queryParams, 'error')) {
-            $hint = array_get($queryParams, 'hint');
+        if ($error = Arr::get($queryParams, 'error')) {
+            $hint = Arr::get($queryParams, 'hint');
 
             throw new Exception("$error: $hint");
         }
 
-        $code = array_get($queryParams, 'code');
+        $code = Arr::get($queryParams, 'code');
 
         if (!$code) {
             $authUrl = $provider->getAuthorizationUrl($this->getAuthorizationUrlOptions());
@@ -77,7 +75,7 @@ class PassportController implements RequestHandlerInterface
             return new RedirectResponse($authUrl);
         }
 
-        $state = array_get($queryParams, 'state');
+        $state = Arr::get($queryParams, 'state');
 
         if (!$state || $state !== $session->get('oauth2state')) {
             $session->remove('oauth2state');
