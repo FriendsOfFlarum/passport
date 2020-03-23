@@ -15,19 +15,22 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\RedirectResponse;
+use Flarum\Http\UrlGenerator;
 
 class PassportController implements RequestHandlerInterface
 {
     protected $settings;
     protected $response;
     protected $events;
+    //@var UrlGenerator
+    protected $url;
 
-
-    public function __construct(ResponseFactory $response, SettingsRepositoryInterface $settings, Dispatcher $events)
+    public function __construct(ResponseFactory $response, SettingsRepositoryInterface $settings, Dispatcher $events, UrlGenerator $url)
     {
         $this->response = $response;
         $this->settings = $settings;
         $this->events = $events;
+        $this->url = $url;
     }
 
     protected function getProvider($redirectUri)
@@ -52,7 +55,7 @@ class PassportController implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $redirectUri = (string)$request->getAttribute('originalUri', $request->getUri())->withQuery('');
+        $redirectUri = $this->url->to('forum')->route('auth.passport');
 
         $provider = $this->getProvider($redirectUri);
 
