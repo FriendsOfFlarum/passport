@@ -10,3 +10,8 @@ fof-passport:
                 app-secret: OAuth application secret
                 app-scopes: OAuth scopes to request
                 button-title: Label for login button
+                button-title-placeholder: => fof-passport.api.default-login-button-title
+                button-icon: Icon for login button
+
+    api:
+        default-login-button-title: => core.ref.log_in

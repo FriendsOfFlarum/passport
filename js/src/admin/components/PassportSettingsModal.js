@@ -60,6 +60,15 @@ export default class PassportSettingsModal extends SettingsModal {
                 m('input.FormControl', {
                     id: 'passport-button-title',
                     bidi: this.setting('fof-passport.button_title'),
+                    placeholder: app.translator.trans('fof-passport.admin.popup.field.button-title-placeholder'),
+                }),
+            ]),
+            m('.Form-group', [
+                m('label', {for: 'passport-button-icon'}, app.translator.trans('fof-passport.admin.popup.field.button-icon')),
+                m('input.FormControl', {
+                    id: 'passport-button-icon',
+                    bidi: this.setting('fof-passport.button_icon'),
+                    placeholder: 'far fa-id-card',
                 }),
             ]),
         ];

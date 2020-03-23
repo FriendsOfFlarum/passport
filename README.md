@@ -49,6 +49,7 @@ OAuth application id | `1` | The integer *Client ID* you've made in the Laravel 
 OAuth application secret | `abcdefghijABCDEFGHIJabcdefghijABCDEFGHIJ` | The *Client secret* provided by Laravel once you created the OAuth client
 OAuth scopes to request | | Optional additional scopes to request during authorization, perhaps you want to protect the user url with a scope or add additional functionality
 Label for login button | Login with Example | Label to place on the login button
+Icon for login button | `far fa-id-card` | FontAwesome icon to place on the login button. [List of available icons](https://fontawesome.com/icons?m=free)
 
 **Hint:** When creating the OAuth client in your Laravel app, don't forget to set the `redirect` value to `<your flarum install>/auth/passport` or you might encounter `invalid_client` errors.
 
