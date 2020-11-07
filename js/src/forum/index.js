@@ -9,7 +9,6 @@ app.initializers.add('fof-passport', () => {
             className: 'Button LogInButton--passport',
             icon: app.forum.attribute('fof-passport.loginIcon'),
             path: '/auth/passport',
-            children: app.forum.attribute('fof-passport.loginTitle'),
-        }));
+        }, app.forum.attribute('fof-passport.loginTitle')));
     });
 });
