@@ -2,12 +2,10 @@
 
 namespace FoF\Passport;
 
+use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Extend;
-use FoF\Components\Extend\AddFofComponents;
 
 return [
-    new AddFofComponents(),
-    
     (new Extend\Frontend('forum'))
         ->js(__DIR__ . '/js/dist/forum.js'),
 
@@ -19,5 +17,6 @@ return [
     (new Extend\Routes('forum'))
         ->get('/auth/passport', 'auth.passport', Controllers\PassportController::class),
 
-    new Extenders\ForumAttributes(),
+    (new Extend\ApiSerializer(ForumSerializer::class))
+        ->mutate(Extenders\ForumAttributes::class),
 ];

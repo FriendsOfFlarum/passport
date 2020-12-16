@@ -2,31 +2,33 @@
 
 namespace FoF\Passport\Extenders;
 
-use Flarum\Api\Event\Serializing;
 use Flarum\Api\Serializer\ForumSerializer;
-use Flarum\Extend\ExtenderInterface;
-use Flarum\Extension\Extension;
 use Flarum\Locale\Translator;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Illuminate\Contracts\Container\Container;
 
-class ForumAttributes implements ExtenderInterface
+class ForumAttributes
 {
-    public function extend(Container $container, Extension $extension = null)
+    /**
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
+     * @var SettingsRepositoryInterface
+     */
+    protected $settings;
+
+    public function __construct(Translator $translator, SettingsRepositoryInterface $settings)
     {
-        $container['events']->listen(Serializing::class, [$this, 'attributes']);
+        $this->translator = $translator;
+        $this->settings = $settings;
     }
 
-    public function attributes(Serializing $event)
+    public function __invoke(ForumSerializer $serializer)
     {
-        if ($event->isSerializer(ForumSerializer::class)) {
-            /**
-             * @var $settings SettingsRepositoryInterface
-             */
-            $settings = app(SettingsRepositoryInterface::class);
+        $attributes['fof-passport.loginTitle'] = $this->settings->get('fof-passport.button_title') ?: $this->translator->trans('fof-passport.api.default-login-button-title');
+        $attributes['fof-passport.loginIcon'] = $this->settings->get('fof-passport.button_icon') ?: 'far fa-id-card';
 
-            $event->attributes['fof-passport.loginTitle'] = $settings->get('fof-passport.button_title') ?: app(Translator::class)->trans('fof-passport.api.default-login-button-title');
-            $event->attributes['fof-passport.loginIcon'] = $settings->get('fof-passport.button_icon') ?: 'far fa-id-card';
-        }
+        return $attributes;
     }
 }
