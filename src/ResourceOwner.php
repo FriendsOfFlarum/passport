@@ -2,6 +2,7 @@
 
 namespace FoF\Passport;
 
+use Illuminate\Support\Arr;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Tool\ArrayAccessorTrait;
 
@@ -12,6 +13,8 @@ class ResourceOwner implements ResourceOwnerInterface
      * @var array
      */
     private $response;
+
+    private static $fields = [];
 
     function __construct(array $response = [])
     {
@@ -25,7 +28,10 @@ class ResourceOwner implements ResourceOwnerInterface
      */
     public function getId()
     {
-        return $this->getValueByKey($this->response, 'id');
+        return $this->getValueByKey(
+            $this->response,
+            Arr::get(static::$fields, 'id', 'id')
+        );
     }
 
     /**
@@ -35,7 +41,10 @@ class ResourceOwner implements ResourceOwnerInterface
      */
     public function getEmail()
     {
-        return $this->getValueByKey($this->response, 'email');
+        return $this->getValueByKey(
+            $this->response,
+            Arr::get(static::$fields, 'email', 'email')
+        );
     }
 
     /**
@@ -45,7 +54,10 @@ class ResourceOwner implements ResourceOwnerInterface
      */
     public function getName()
     {
-        return $this->getValueByKey($this->response, 'name');
+        return $this->getValueByKey(
+            $this->response,
+            Arr::get(static::$fields, 'name', 'name')
+        );
     }
 
     /**
@@ -56,5 +68,10 @@ class ResourceOwner implements ResourceOwnerInterface
     public function toArray()
     {
         return $this->response;
+    }
+
+    public static function setFields(array $fields = [])
+    {
+        static::$fields = $fields;
     }
 }
