@@ -8,7 +8,7 @@ return [
         /**
          * @var $settings SettingsRepositoryInterface
          */
-        $settings = app(SettingsRepositoryInterface::class);
+        $settings = resolve(SettingsRepositoryInterface::class);
 
         foreach ([
                      'app_auth_url',

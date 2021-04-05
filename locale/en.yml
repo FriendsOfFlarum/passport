@@ -1,7 +1,6 @@
 fof-passport:
     admin:
         popup:
-            title: FoF Passport
             field:
                 app-auth-url: OAuth authorization URL
                 app-token-url: OAuth token URL

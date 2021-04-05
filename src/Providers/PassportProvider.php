@@ -93,7 +93,7 @@ class PassportProvider extends AbstractProvider
      */
     protected function createResourceOwner(array $response, AccessToken $token)
     {
-        app(Dispatcher::class)->dispatch(new ParsingResourceOwner($response));
+        resolve(Dispatcher::class)->dispatch(new ParsingResourceOwner($response));
 
         return new ResourceOwner($response);
     }

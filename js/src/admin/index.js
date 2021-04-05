@@ -1,7 +1,8 @@
 import app from 'flarum/app';
 
-app.initializers.add('fof-passport', app => {
-    app.extensionData.for('fof-passport')
+app.initializers.add('fof-passport', (app) => {
+    app.extensionData
+        .for('fof-passport')
         .registerSetting({
             label: app.translator.trans('fof-passport.admin.popup.field.app-auth-url'),
             setting: 'fof-passport.app_auth_url',

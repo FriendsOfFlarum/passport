@@ -6,8 +6,6 @@ The [Laravel Passport](https://laravel.com/docs/passport) compatible oauth exten
 
 ## Installation
 
-Use [Bazaar](https://discuss.flarum.org/d/5151) or install manually:
-
 ```bash
 composer require fof/passport
 ```
