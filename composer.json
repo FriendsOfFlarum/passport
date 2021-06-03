@@ -35,7 +35,7 @@
         }
     ],
     "require": {
-        "flarum/core": "^0.1.0-beta.16",
+        "flarum/core": "^1.0",
         "league/oauth2-client": "^2.3.0"
     },
     "replace": {
@@ -44,7 +44,7 @@
     "extra": {
         "flarum-extension": {
             "title": "FoF Passport",
-            "category": "authentication",
+            "category": "feature",
             "icon": {
                 "name": "fas fa-key",
                 "backgroundColor": "#e74c3c",
