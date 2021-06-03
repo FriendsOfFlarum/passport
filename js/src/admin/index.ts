@@ -1,6 +1,6 @@
-import app from 'flarum/app';
+import app from 'flarum/admin/app';
 
-app.initializers.add('fof-passport', (app) => {
+app.initializers.add('fof-passport', function () {
     app.extensionData
         .for('fof-passport')
         .registerSetting({
