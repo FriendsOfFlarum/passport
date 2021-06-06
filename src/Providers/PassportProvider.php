@@ -1,10 +1,19 @@
 <?php
 
+/*
+ * This file is part of fof/passport.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Passport\Providers;
 
+use Flarum\Settings\SettingsRepositoryInterface;
 use FoF\Passport\Events\ParsingResourceOwner;
 use FoF\Passport\ResourceOwner;
-use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -40,6 +49,7 @@ class PassportProvider extends AbstractProvider
      * Eg. https://oauth.service.com/token
      *
      * @param array $params
+     *
      * @return string
      */
     public function getBaseAccessTokenUrl(array $params)
@@ -51,6 +61,7 @@ class PassportProvider extends AbstractProvider
      * Returns the URL for requesting the resource owner's details.
      *
      * @param AccessToken $token
+     *
      * @return string
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token)
@@ -74,9 +85,11 @@ class PassportProvider extends AbstractProvider
     /**
      * Checks a provider response for errors.
      *
+     * @param ResponseInterface $response
+     * @param array|string      $data     Parsed response data
+     *
      * @throws IdentityProviderException
-     * @param  ResponseInterface $response
-     * @param  array|string $data Parsed response data
+     *
      * @return void
      */
     protected function checkResponse(ResponseInterface $response, $data)
@@ -87,8 +100,9 @@ class PassportProvider extends AbstractProvider
      * Generates a resource owner object from a successful resource owner
      * details request.
      *
-     * @param  array $response
-     * @param  AccessToken $token
+     * @param array       $response
+     * @param AccessToken $token
+     *
      * @return ResourceOwnerInterface
      */
     protected function createResourceOwner(array $response, AccessToken $token)

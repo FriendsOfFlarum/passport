@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/passport.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Passport;
 
 use Illuminate\Support\Arr;
@@ -16,7 +25,7 @@ class ResourceOwner implements ResourceOwnerInterface
 
     private static $fields = [];
 
-    function __construct(array $response = [])
+    public function __construct(array $response = [])
     {
         $this->response = $response;
     }
@@ -35,7 +44,7 @@ class ResourceOwner implements ResourceOwnerInterface
     }
 
     /**
-     * Get resource owner email
+     * Get resource owner email.
      *
      * @return string|null
      */
@@ -48,7 +57,7 @@ class ResourceOwner implements ResourceOwnerInterface
     }
 
     /**
-     * Get resource owner name
+     * Get resource owner name.
      *
      * @return string|null
      */

@@ -1,20 +1,29 @@
 <?php
 
+/*
+ * This file is part of fof/passport.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Passport\Controllers;
 
 use Exception;
-use FoF\Passport\Events\SendingResponse;
-use FoF\Passport\Providers\PassportProvider;
 use Flarum\Forum\Auth\Registration;
 use Flarum\Forum\Auth\ResponseFactory;
+use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
+use FoF\Passport\Events\SendingResponse;
+use FoF\Passport\Providers\PassportProvider;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Arr;
+use Laminas\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Laminas\Diactoros\Response\RedirectResponse;
-use Flarum\Http\UrlGenerator;
 
 class PassportController implements RequestHandlerInterface
 {
@@ -37,7 +46,7 @@ class PassportController implements RequestHandlerInterface
             'clientId'     => $this->settings->get('fof-passport.app_id'),
             'clientSecret' => $this->settings->get('fof-passport.app_secret'),
             'redirectUri'  => $redirectUri,
-            'settings'     => $this->settings
+            'settings'     => $this->settings,
         ]);
     }
 
@@ -57,7 +66,7 @@ class PassportController implements RequestHandlerInterface
 
         $provider = $this->getProvider($redirectUri);
 
-        $session     = $request->getAttribute('session');
+        $session = $request->getAttribute('session');
         $queryParams = $request->getQueryParams();
 
         if ($error = Arr::get($queryParams, 'error')) {
@@ -79,15 +88,17 @@ class PassportController implements RequestHandlerInterface
 
         if (!$state || $state !== $session->get('oauth2state')) {
             $session->remove('oauth2state');
+
             throw new Exception('Invalid state');
         }
 
         $token = $provider->getAccessToken('authorization_code', compact('code'));
-        $user  = $provider->getResourceOwner($token);
+        $user = $provider->getResourceOwner($token);
 
         $response = $this->response->make(
-            'passport', $user->getId(),
-            function (Registration $registration) use ($user, $provider, $token) {
+            'passport',
+            $user->getId(),
+            function (Registration $registration) use ($user) {
                 $registration
                     ->provideTrustedEmail($user->getEmail())
                     ->setPayload($user->toArray());
