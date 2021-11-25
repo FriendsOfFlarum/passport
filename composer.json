@@ -1,5 +1,5 @@
 {
-    "name": "littlecxm/fof-passport",
+    "name": "fof/passport",
     "description": "The OAuth2 (and Laravel passport) compatible oauth extension",
     "keywords": [
         "flarum",
@@ -43,7 +43,7 @@
     },
     "extra": {
         "flarum-extension": {
-            "title": "FoF Passport(Fork)",
+            "title": "FoF Passport",
             "category": "feature",
             "icon": {
                 "name": "fas fa-key",
