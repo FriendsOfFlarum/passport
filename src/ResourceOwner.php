@@ -23,7 +23,7 @@ class ResourceOwner implements ResourceOwnerInterface
      */
     private $response;
 
-    private static $fields = [];
+    public static $fields = [];
 
     public function __construct(array $response = [])
     {
