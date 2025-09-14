@@ -48,8 +48,30 @@ OAuth application secret | `abcdefghijABCDEFGHIJabcdefghijABCDEFGHIJ` | The *Cli
 OAuth scopes to request | | Optional additional scopes to request during authorization, perhaps you want to protect the user url with a scope or add additional functionality
 Label for login button | Login with Example | Label to place on the login button
 Icon for login button | `far fa-id-card` | FontAwesome icon to place on the login button. [List of available icons](https://fontawesome.com/icons?m=free)
+OAuth User ID field name | `id` | **Required.** The field name in the OAuth user response that contains the user ID
+OAuth User email field name | `email` | **Required.** The field name in the OAuth user response that contains the user email
+OAuth User name field name | `name` | **Optional.** The field name in the OAuth user response that contains the user name. Note: This field is not currently used by Flarum for authentication
 
 **Hint:** When creating the OAuth client in your Laravel app, don't forget to set the `redirect` value to `<your flarum install>/auth/passport` or you might encounter `invalid_client` errors.
+
+### Field Mapping
+
+The new field mapping settings allow you to customize which fields from your OAuth provider's user response are used for user identification. This is useful when your OAuth API returns user data with different field names than the defaults.
+
+**Example:** If your OAuth API returns:
+```json
+{
+  "user_id": 123,
+  "user_email": "john@example.com",
+  "user_fullname": "John Doe"
+}
+```
+
+You would configure:
+- OAuth User ID field name: `user_id`
+- OAuth User email field name: `user_email`  
+- OAuth User name field name: `user_fullname`
+
 
 ## Links
 

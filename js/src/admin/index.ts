@@ -49,5 +49,23 @@ app.initializers.add('fof-passport', function () {
       setting: 'fof-passport.button_icon',
       type: 'text',
       placeholder: 'far fa-id-card',
+    })
+    .registerSetting({
+      label: app.translator.trans('fof-passport.admin.popup.field.user-id-field'),
+      setting: 'fof-passport.user_id_field',
+      type: 'text',
+      placeholder: 'id',
+    })
+    .registerSetting({
+      label: app.translator.trans('fof-passport.admin.popup.field.user-email-field'),
+      setting: 'fof-passport.user_email_field',
+      type: 'text',
+      placeholder: 'email',
+    })
+    .registerSetting({
+      label: app.translator.trans('fof-passport.admin.popup.field.user-name-field'),
+      setting: 'fof-passport.user_name_field',
+      type: 'text',
+      placeholder: 'name',
     });
 });

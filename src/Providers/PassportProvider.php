@@ -109,6 +109,13 @@ class PassportProvider extends AbstractProvider
     {
         resolve(Dispatcher::class)->dispatch(new ParsingResourceOwner($response));
 
+        // Set custom field mappings from settings
+        ResourceOwner::setFields([
+            'id' => $this->settings->get('fof-passport.user_id_field', 'id'),
+            'email' => $this->settings->get('fof-passport.user_email_field', 'email'),
+            'name' => $this->settings->get('fof-passport.user_name_field', 'name'),
+        ]);
+
         return new ResourceOwner($response);
     }
 }
