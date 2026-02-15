@@ -11,6 +11,9 @@ fof-passport:
                 button-title: Label for login button
                 button-title-placeholder: => fof-passport.api.default-login-button-title
                 button-icon: Icon for login button
+                user-id-field: OAuth User ID field name
+                user-email-field: OAuth User email field name
+                user-name-field: OAuth User name field name
 
     api:
         default-login-button-title: => core.ref.log_in
